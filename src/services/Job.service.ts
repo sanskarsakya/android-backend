@@ -98,7 +98,12 @@ export class JobService {
             })
             .page(paged.offset, paged.limit);
 
-        return mine
+        return {
+            data: mine.results,
+            paged: {
+
+            }
+        }
     }
 
     public async apply(user: User, jobId) {
