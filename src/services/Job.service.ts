@@ -30,9 +30,19 @@ export class JobService {
             }
         }
 
-        let jobs = await query;
+        let dataset = await query;
 
-        return jobs
+        let response = {
+            data: dataset.results,
+            paged: {
+                page: page,
+                pageSize: limit,
+                rowCount: dataset.total,
+                pageCount: Math.ceil(dataset.total / parseInt(limit))
+            }
+        };
+
+        return response;
     }
 
     public async get_by_id(user: User, id: string) {
