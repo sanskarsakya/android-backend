@@ -133,10 +133,16 @@ export class JobService {
         let response_mapped = applicants.map((data: any) => {
             let { password_digest, ...mapped } = data;
             return mapped;
-
         })
 
-        return response_mapped;
+        let response = {
+            data: applicants,
+            paged: {
+
+            }
+        }
+
+        return response;
     }
 
 
