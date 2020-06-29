@@ -19,6 +19,32 @@
  *     description: Returns all Jobs
  *     produces:
  *       - application/json
+ *     parameters: 
+ *       - name: page
+ *         description: Job's page no
+ *         in: query
+ *         required: false
+ *         type: number
+ *       - name: limit
+ *         description: no. of item to display
+ *         in: query
+ *         required: false
+ *         type: number
+ *       - name: search
+ *         description: Job title
+ *         in: query
+ *         required: false
+ *         type: string
+ *       - name: sort
+ *         description: Sort column (id)
+ *         in: query
+ *         required: false
+ *         type: string
+ *       - name: order
+ *         description: Sort type (asc | desc)
+ *         in: query
+ *         required: false
+ *         type: string
  *     responses:
  *       200:
  *         description: returns an array of job object

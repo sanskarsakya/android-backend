@@ -22,7 +22,13 @@ export class JobController {
 
     public async get_all(req: Request, res: Response, next: NextFunction): Promise<any> {
         try {
-            let response = await JobService.get_all(req.query.page as string, req.query.limit as string);
+            let page   = req.query.page as string;
+            let limit  = req.query.limit as string;
+            let search = req.query.search as string;
+            let sort   = req.query.sort as string;
+            let order  = req.query.order as string;
+
+            let response = await JobService.get_all(page, limit, search, sort, order);
 
             return res.status(200).json(response);
 
@@ -133,14 +139,14 @@ export class JobController {
     }
 
     public initRoutes() {
-        this.router.get('/'             , this.get_all);
-        this.router.get('/mine'         , Utilities.check_auth, this.mine);
-        this.router.get('/applied/:id?' , Utilities.check_auth, this.applied);
-        this.router.get('/apply/:id?'   , Utilities.check_auth, this.apply);
-        this.router.get('/:id?'         , Utilities.check_auth_allowable, this.get_by_id);
-        this.router.post('/'            , Utilities.check_auth, this.create);
-        this.router.put('/:id'          , Utilities.check_auth, this.update);
-        this.router.delete('/:id'       , Utilities.check_auth, this.delete);
+        this.router.get('/'             , Utilities.check_auth_allowable    , this.get_all);
+        this.router.get('/mine'         , Utilities.check_auth              , this.mine);
+        this.router.get('/applied/:id?' , Utilities.check_auth              , this.applied);
+        this.router.get('/apply/:id?'   , Utilities.check_auth              , this.apply);
+        this.router.get('/:id?'         , Utilities.check_auth_allowable    , this.get_by_id);
+        this.router.post('/'            , Utilities.check_auth              , this.create);
+        this.router.put('/:id'          , Utilities.check_auth              , this.update);
+        this.router.delete('/:id'       , Utilities.check_auth              , this.delete);
     }
 
 }

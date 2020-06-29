@@ -11,8 +11,28 @@ export class JobService {
 
     constructor() { }
 
-    public async get_all(page: string, limit: string) {
-        return BaseService._get_all_paged({ model: Job, page: page, limit: limit });
+    public async get_all(page: string, limit: string, search: string, sort:string, order:string) {
+        // return BaseService._get_all_paged({ model: Job, page: page, limit: limit, search: search, fields: 'title' });
+
+        let paged = BaseService._notmaliza_page(page, limit);
+
+        let query = Job
+            .query()
+            .page(paged.offset, paged.limit);
+
+        if (search != undefined) {
+            query.orWhere('title', 'like', '%' + search + '%');
+        }
+
+        if (sort != undefined) {
+            if (order != undefined) {
+                query.orderBy(sort, order);
+            }
+        }
+
+        let jobs = await query;
+
+        return jobs
     }
 
     public async get_by_id(user: User, id: string) {
@@ -23,8 +43,8 @@ export class JobService {
         if (user) {
             job_found.leftJoin('applicants', (join) => {
                 join
-                .on('applicants.job_id', '=', 'jobs.id')
-                .andOn(raw('applicants.user_id = ?', user.id));
+                    .on('applicants.job_id', '=', 'jobs.id')
+                    .andOn(raw('applicants.user_id = ?', user.id));
             })
         }
 
@@ -91,12 +111,22 @@ export class JobService {
 
         let applicants = await Applicant
             .query()
+            .select('users.*')
+            .leftJoin('users', (join) => {
+                join
+                    .on('applicants.user_id', '=', 'users.id')
+            })
             .where({
                 job_id: jobId,
-                user_id: user.id
             });
 
-        return applicants;
+        let response_mapped = applicants.map((data: any) => {
+            let { password_digest, ...mapped } = data;
+            return mapped;
+
+        })
+
+        return response_mapped;
     }
 
 
