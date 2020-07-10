@@ -51,7 +51,7 @@ export class UserService {
                 .limit(1);
 
             if (user_found) {
-                return { status: 404, message: 'user_already_exists' };
+                throw { status: 404, message: 'user_already_exists' };
             }
 
             let hash = await Utilities.hash(user.password);
