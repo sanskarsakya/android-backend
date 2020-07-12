@@ -8,3 +8,23 @@ bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1OTI5MzYxNzksImRhdGEiOnsi
 ```
 $2y$10$DZuUfJ27NZ82CKGSZvTHyuCckTkla/58K28D.oXoYwHEbcS8IC4VG
 ```
+
+
+### Info
+this project is hosted on https://pz-job.herokuapp.com. To view swagger visit http://pz-job.herokuapp.com/api-docs.
+
+### Getting started
+ 1. Migrate Database
+```
+npx knex migrate:latest
+```
+
+2. build project
+```
+npx tsc
+```
+
+3. start project
+```
+npm start
+```
